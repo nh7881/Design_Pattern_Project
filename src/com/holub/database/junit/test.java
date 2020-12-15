@@ -48,7 +48,6 @@ public class test{
 		  b.append("\n");
 		}
 	  String res = b.toString();
-	  System.out.print(res);
 	  assertEquals(check, res);
 	  if(statement != null) statement.close();
 	  if(connection!= null) connection.close();
@@ -84,4 +83,5 @@ public class test{
 	  TestXml.endTable();
 	  out.close();
   }
+  
 }

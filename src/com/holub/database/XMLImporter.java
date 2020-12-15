@@ -74,6 +74,7 @@ public class XMLImporter implements Table.Importer
 						? (BufferedReader)in
                         : new BufferedReader(in)
 	                    ;
+		this.columnNames = new LinkedList();
 	}
 	public void startTable()			throws IOException
 	{	
@@ -82,9 +83,11 @@ public class XMLImporter implements Table.Importer
 		tableName   = in.readLine().trim().replace("<name>", "").replace("</name>", "");
 		in.readLine();
 		String temp = in.readLine().trim();
-		while(temp  != "</columns>") {
-			temp.replace("<column>", "").replace("</column>", "");
-			columnNames.add(temp);
+		String endpoint = new String("</columns>");
+		while(!temp.equals(endpoint)) {
+			temp = temp.replace("<column>", "").replace("</column>", "");
+			this.columnNames.add(temp);
+			temp = in.readLine().trim();
 		}
 		in.readLine();
 	}
@@ -107,16 +110,18 @@ public class XMLImporter implements Table.Importer
 			int i=0;
 			in.readLine();
 			String line = in.readLine().trim();
-			while(line != "</row>") {
-				if( line == "</table>" ) {
+			String endpoint = new String("</row>");
+			String finalpoint = new String("</table>");
+			while(!line.equals(endpoint)) {
+				if( line.equals(finalpoint) ) {
 					in = null;
 					break;
 				}
 				else {
-					tempRow[i] = line.replaceAll("<^.*>", "");
+					tempRow[i] = line.replaceAll("<[0-9A-Za-z]*>", "").replaceAll("</[0-9A-Za-z]*>", "");
 					i++;
+					line = in.readLine().trim();
 				}
-					
 			}
 			if(i!=0) {
 				row = new ArrayIterator(tempRow);
