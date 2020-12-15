@@ -100,6 +100,8 @@ import com.holub.tools.ArrayIterator;
 
 		tableName = importer.loadTableName();
 		int width = importer.loadWidth();
+		// made by hun
+		System.out.println(width);
 		Iterator columns = importer.loadColumnNames();
 
 		this.columnNames = new String[width];
@@ -459,7 +461,22 @@ import com.holub.tools.ArrayIterator;
 
 		// Create places to hold the result of the join and to hold
 		// iterators for each table involved in the join.
-
+		// made by hun
+		if (requestedColumns == null) { // SELECT *
+			int allColnumsNum = 0;
+			for(int i=0; i<allTables.length; i++) {
+				allColnumsNum += allTables[i].getColumnNames().length;
+			}
+			requestedColumns = new String[allColnumsNum];
+			int index = 0;
+			for(int j=0; j<allTables.length; j++) {
+				String[] tempColumns = allTables[j].getColumnNames();
+				for(int k=0; k < tempColumns.length; k++) {
+					requestedColumns[index] = tempColumns[k];
+					index++;
+				}
+			}
+		}
 		Table resultTable = new ConcreteTable(null, requestedColumns);
 		Cursor[] envelope = new Cursor[allTables.length];
 
@@ -590,6 +607,10 @@ import com.holub.tools.ArrayIterator;
 
 	public void rename(String s) {
 		tableName = s;
+	}
+	// made by hun
+	public String[] getColumnNames( ) {
+		return this.columnNames;
 	}
 
 	public boolean isDirty() {

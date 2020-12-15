@@ -105,6 +105,7 @@ public class UnmodifiableTable implements Table
 	public String	toString() 		{ return wrapped.toString();	}
 	public String	name()			{ return wrapped.name(); 		}
 	public void		rename(String s){ 		 wrapped.rename(s);		}
+	public String[]	getColumnNames(){ return wrapped.getColumnNames(); 		}
 	public boolean	isDirty()		{ return wrapped.isDirty();		}
 
 	/** Extract the wrapped table. The existence of this method is

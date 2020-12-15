@@ -143,8 +143,9 @@ public class Console
 	private void processSQL()
 	{	
 		String input 		= sqlIn.getText().replaceAll("\\s+", " ");
+		// made by hun
+		System.out.println("input : " + input);
 		String statements[] = input.split(";");
-
 		String line = "====================================\n";
 
 		sqlIn.setText("");
@@ -164,7 +165,24 @@ public class Console
 						"\nStatus=" + String.valueOf(status) + "\n");
 				}
 				else
-				{	ResultSet results = statement.executeQuery( statements[i] );
+				{	
+					System.out.println("select start");
+					System.out.println("statements : " + statements[i]);
+					ResultSet results = statement.executeQuery( statements[i] );
+					System.out.println("select end");
+					//made by hun
+					int hun_col_num = results.getMetaData().getColumnCount();
+					System.out.println("results columns num : " + hun_col_num);
+					for(int hun_i=1; hun_i <= hun_col_num; ++hun_i) {
+						System.out.println("results columns name : " + results.getMetaData().getColumnName(hun_i));
+					}
+					while( results.next() )
+					{
+						for( int aa = 1; aa <= hun_col_num; ++aa ) {
+							System.out.println("row data : " + results.getString(results.getMetaData().getColumnName(aa)));
+						}
+					}
+					results = statement.executeQuery( statements[i] );
 					sqlOut.setText(
 							sqlOut.getText() + line +
 							"Processed: " + statements[i] + 

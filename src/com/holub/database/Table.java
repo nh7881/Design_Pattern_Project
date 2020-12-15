@@ -67,6 +67,10 @@ public interface Table extends Serializable, Cloneable
 	 *  update, insert, etc.). The dirty bit is cleared when
 	 *  you export the table.
 	 */
+	
+	// made by hun
+	String[] getColumnNames();
+	
 	boolean isDirty();
 
 	/** Insert new values into the table corresponding to the

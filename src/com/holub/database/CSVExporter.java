@@ -96,6 +96,14 @@ public class CSVExporter implements Table.Exporter
 		out.write("\n");
 	}
 
-	public void startTable() throws IOException {/*nothing to do*/}
-	public void endTable()   throws IOException {/*nothing to do*/}
+	public void startTable() throws IOException {
+		/*nothing to do*/
+		// made by hun
+		System.out.println("start!!! -by hun");
+		}
+	public void endTable()   throws IOException {
+		/*nothing to do*/
+		// made by hun
+		System.out.println("end!!! -by hun");
+		}
 }
