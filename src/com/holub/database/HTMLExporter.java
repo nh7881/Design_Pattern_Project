@@ -60,11 +60,11 @@ import java.util.*;
  * @see CSVImporter
  */
 
-public class CSVExporter implements Table.Exporter
+public class HTMLExporter implements Table.Exporter
 {	private final Writer out;
 	private 	  int	 width;
 
-	public CSVExporter( Writer out )
+	public HTMLExporter( Writer out )
 	{	this.out = out;
 	}
 
@@ -73,7 +73,13 @@ public class CSVExporter implements Table.Exporter
 							   int height,
 							   Iterator columnNames ) throws IOException
 
-	{	this.width = width;
+	{	
+		this.width = width;
+		out.write(tableName == null ? "<anonymous>" : tableName );
+		out.write("</title>\n");
+		out.write("\t</head>\n");
+		out.write("\t<body>\n");
+		out.write("\t\t<table border=1>");
 		out.write(tableName == null ? "<anonymous>" : tableName );
 		out.write("\n");
 		storeRow( columnNames ); // comma separated list of columns ids
@@ -81,6 +87,7 @@ public class CSVExporter implements Table.Exporter
 
 	public void storeRow( Iterator data ) throws IOException
 	{	int i = width;
+		out.write("\t\t\t<tr>\n");
 		while( data.hasNext() )
 		{	Object datum = data.next();
 
@@ -88,18 +95,21 @@ public class CSVExporter implements Table.Exporter
 			// (two commas in a row). There's nothing to write
 			// if the column data is null.
 			if( datum != null )	
+				out.write("\t\t\t\t<td>");
 				out.write( datum.toString() );
-
-			if( --i > 0 )
-				out.write(",\t");
+				out.write("</td>\n");
 		}
-		out.write("\n");
+		out.write("\t\t\t</tr>\n");
 	}
 
 	public void startTable() throws IOException {
-		/*nothing to do*/
-		}
+		out.write("<html>\n");
+		out.write("\t<head>\n");
+		out.write("\t\t<title>");
+	}
 	public void endTable()   throws IOException {
-		/*nothing to do*/
-		}
+		out.write("\t\t</table>\n");
+		out.write("\t</body>\n");
+		out.write("</html>\n");
+	}
 }

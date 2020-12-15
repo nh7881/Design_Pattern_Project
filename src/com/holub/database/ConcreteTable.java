@@ -100,8 +100,6 @@ import com.holub.tools.ArrayIterator;
 
 		tableName = importer.loadTableName();
 		int width = importer.loadWidth();
-		// made by hun
-		System.out.println(width);
 		Iterator columns = importer.loadColumnNames();
 
 		this.columnNames = new String[width];
