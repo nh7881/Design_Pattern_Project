@@ -2,7 +2,6 @@ package com.holub.database.junit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-<<<<<<< HEAD
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,22 +23,10 @@ public class test{
 	  		+ "012 MyStreetBerkeleyCA99998AllenHolub0\n"
 	  		+ "134 Quarry Ln.BedrockAZ00000FredFlintstone1\n"
 	  		+ "134 Quarry Ln.BedrockAZ00000WilmaFlintstone1\n";
-=======
-import java.sql.*;
-
-import org.junit.Test;
-import com.holub.database.*;
- 
-public class test{
-   
-  @Test
-  public void testjoinstarquery( ) throws Exception {
->>>>>>> 9a0ea48b58c167b0a16646cc266e02fbd75579a5
 	  Class.forName( "com.holub.database.jdbc.JDBCDriver" );
 	  Connection connection = null;
 	  Statement  statement  = null;
 	  connection = DriverManager.getConnection(			//{=JDBCTest.getConnection}
-<<<<<<< HEAD
 				"file:/C:/DP2020Project/Dbase",
 				"harpo", "swordfish" );
 	  
@@ -66,17 +53,20 @@ public class test{
 	  if(statement != null) statement.close();
 	  if(connection!= null) connection.close();
   }
-=======
-				"file:/c:/src/com/holub/database/jdbc/Dbase",
-				"harpo", "swordfish" );
-	  statement = connection.createStatement();
-	  ResultSet result = statement.executeQuery( "select * from testA, testB" );
-	  while( result.next()) {
-		  System.out.println("row data : " + result.toString());
-	  }
-	  if(statement != null) statement.close();
-	  if(connection!= null) connection.close();
+
+  @Test
+  public void testHTMLExporter( ) throws Exception {
+	  Writer out = new FileWriter("C:/dp2020/HtmlExportTest.html");
+	  HTMLExporter TestHtml = new HTMLExporter(out);
+	  TestHtml.startTable();
+	  TestHtml.storeMetadata("HtmlExportTest", 3, 3, new ArrayIterator(new String[] { "last", "first", "addrId" }));
+	  LinkedList<String[]> rowSet = new LinkedList<String[]>();
+	  rowSet.add(new String[] { "Fred", "Flintstone", "1" });
+	  rowSet.add(new String[] { "Wilma", "Flintstone", "1" });
+	  rowSet.add(new String[] { "Allen", "Holub", "0" });
+	  for (Iterator<String[]> i = rowSet.iterator(); i.hasNext();)
+		  TestHtml.storeRow(new ArrayIterator((Object[]) i.next()));
+	  TestHtml.endTable();
+	  out.close();
   }
- 
->>>>>>> 9a0ea48b58c167b0a16646cc266e02fbd75579a5
 }
