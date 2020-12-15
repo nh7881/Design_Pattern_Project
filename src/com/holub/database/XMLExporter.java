@@ -107,7 +107,7 @@ public class XMLExporter implements Table.Exporter
 			if( datum != null )	
 				out.write("\t\t\t\t<" + this.columnNames[i] + ">");
 				out.write( datum.toString() );
-				out.write("</" + this.columnNames[i] + ">");
+				out.write("</" + this.columnNames[i] + ">\n");
 				i++;
 		}
 		out.write("\t\t\t</row>\n");
