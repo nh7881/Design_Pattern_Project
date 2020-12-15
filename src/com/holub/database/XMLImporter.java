@@ -66,8 +66,8 @@ import java.util.*;
 
 public class XMLImporter implements Table.Importer
 {	private BufferedReader  in;			// null once end-of-file reached
-	private String[]        columnNames;
-	private String          tableName;
+	private LinkedList<String> columnNames;
+	private String tableName;
 
 	public XMLImporter( Reader in )
 	{	this.in = in instanceof BufferedReader
@@ -76,27 +76,52 @@ public class XMLImporter implements Table.Importer
 	                    ;
 	}
 	public void startTable()			throws IOException
-	{	tableName   = in.readLine().trim();
-		columnNames = in.readLine().split("\\s*,\\s*");
+	{	
+		in.readLine();
+		in.readLine();
+		tableName   = in.readLine().trim().replace("<name>", "").replace("</name>", "");
+		in.readLine();
+		String temp = in.readLine().trim();
+		while(temp  != "</columns>") {
+			temp.replace("<column>", "").replace("</column>", "");
+			columnNames.add(temp);
+		}
+		in.readLine();
 	}
 	public String loadTableName()		throws IOException
 	{	return tableName;
 	}
 	public int loadWidth()			    throws IOException
-	{	return columnNames.length;
+	{	return columnNames.size();
 	}
 	public Iterator loadColumnNames()	throws IOException
-	{	return new ArrayIterator(columnNames);  //{=CSVImporter.ArrayIteratorCall}
+	{	return columnNames.iterator();
 	}
 
 	public Iterator loadRow()			throws IOException
-	{	Iterator row = null;
+	{	
+		Iterator row = null;
 		if( in != null )
-		{	String line = in.readLine();
-			if( line == null )
-				in = null;
-			else
-				row = new ArrayIterator( line.split("\\s*,\\s*"));
+		{	
+			String[] tempRow = new String[loadWidth()];
+			int i=0;
+			in.readLine();
+			String line = in.readLine().trim();
+			while(line != "</row>") {
+				if( line == "</table>" ) {
+					in = null;
+					break;
+				}
+				else {
+					tempRow[i] = line.replaceAll("<^.*>", "");
+					i++;
+				}
+					
+			}
+			if(i!=0) {
+				row = new ArrayIterator(tempRow);
+			}
+			
 		}
 		return row;
 	}
