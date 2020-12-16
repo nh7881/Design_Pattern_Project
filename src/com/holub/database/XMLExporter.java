@@ -68,6 +68,12 @@ public class XMLExporter implements Table.Exporter
 	{	this.out = out;
 	}
 
+	public void startTable() throws IOException {
+		out.write("<root>\n");
+		out.write("\t<table>\n");
+		out.write("\t\t<name>");
+	}
+	
 	public void storeMetadata( String tableName,
 							   int width,
 							   int height,
@@ -75,7 +81,7 @@ public class XMLExporter implements Table.Exporter
 
 	{	
 		this.width = width;
-		this.columnNames = new String[width];
+		this.columnNames = new String[this.width];
 		out.write(tableName == null ? "<anonymous>" : tableName );
 		out.write("</name>\n");
 		out.write("\t\t<columns>\n");
@@ -100,10 +106,6 @@ public class XMLExporter implements Table.Exporter
 		out.write("\t\t\t<row>\n");
 		while( data.hasNext() )
 		{	Object datum = data.next();
-
-			// Null columns are represented by an empty field
-			// (two commas in a row). There's nothing to write
-			// if the column data is null.
 			if( datum != null )	
 				out.write("\t\t\t\t<" + this.columnNames[i] + ">");
 				out.write( datum.toString() );
@@ -113,11 +115,6 @@ public class XMLExporter implements Table.Exporter
 		out.write("\t\t\t</row>\n");
 	}
 
-	public void startTable() throws IOException {
-		out.write("<root>\n");
-		out.write("\t<table>\n");
-		out.write("\t\t<name>");
-	}
 	public void endTable()   throws IOException {
 		out.write("\t\t</rows>\n");
 		out.write("\t</table>\n");

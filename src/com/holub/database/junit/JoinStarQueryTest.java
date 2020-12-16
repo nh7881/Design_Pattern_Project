@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.holub.database.*;
 import com.holub.tools.ArrayIterator;
  
-public class test{
+public class JoinStarQueryTest{
   @Test
   public void testjoinstarquery( ) throws Exception {
 	  String check = "addrIdstreetcitystatezipfirstlastaddrId\n"
@@ -27,7 +27,7 @@ public class test{
 	  Connection connection = null;
 	  Statement  statement  = null;
 	  connection = DriverManager.getConnection(			//{=JDBCTest.getConnection}
-				"file:/C:/DP2020Project/Dbase",
+				"file:/C:/dp2020",
 				"harpo", "swordfish" );
 	  
 	  statement = connection.createStatement();
